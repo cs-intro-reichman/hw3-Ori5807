@@ -22,46 +22,103 @@ public class Algebra {
 		System.out.println(sqrt(263169));
    		System.out.println(sqrt(76123));
 	}  
+    public static int plus(int a, int b) {
+        // מוסיפים 1 ל-a בדיוק b פעמים
+        while (b > 0) {
+            a++;
+            b--;
+        }
+        while (b < 0) { // אם b שלילי
+            a--;
+            b++;
+        }
+        return a;
+    }
 
-	// Returns x1 + x2
-	public static int plus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+    public static int minus(int a, int b) {
+        // a - b = a + (-b)
+        while (b > 0) {
+            a--;
+            b--;
+        }
+        while (b < 0) {
+            a++;
+            b++;
+        }
+        return a;
+    }
 
-	// Returns x1 - x2
-	public static int minus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+    public static int times(int a, int b) {
+        int result = 0;
+        boolean negative = false;
 
-	// Returns x1 * x2
-	public static int times(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+        // טיפול בסימן
+        if (a < 0) {
+            a = minus(0, a); // a = -a
+            negative = !negative;
+        }
+        if (b < 0) {
+            b = minus(0, b); // b = -b
+            negative = !negative;
+        }
 
-	// Returns x^n (for n >= 0)
-	public static int pow(int x, int n) {
-		// Replace the following statement with your code
-		return 0;
-	}
+        while (b > 0) {
+            result = plus(result, a);
+            b--;
+        }
 
-	// Returns the integer part of x1 / x2 
-	public static int div(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+        if (negative)
+            result = minus(0, result);
 
-	// Returns x1 % x2
-	public static int mod(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}	
+        return result;
+    }
 
-	// Returns the integer part of sqrt(x) 
-	public static int sqrt(int x) {
-		// Replace the following statement with your code
-		return 0;
-	}	  	  
+    public static int pow(int a, int b) {
+        int result = 1;
+        while (b > 0) {
+            result = times(result, a);
+            b--;
+        }
+        return result;
+    }
+
+    public static int div(int a, int b) {
+        if (b == 0) throw new RuntimeException("Division by zero!");
+
+        int count = 0;
+        boolean negative = false;
+
+        if (a < 0) {
+            a = minus(0, a);
+            negative = !negative;
+        }
+        if (b < 0) {
+            b = minus(0, b);
+            negative = !negative;
+        }
+
+        while (a >= b) {
+            a = minus(a, b);
+            count++;
+        }
+
+        if (negative)
+            count = minus(0, count);
+
+        return count;
+    }
+
+    public static int mod(int a, int b) {
+        int d = div(a, b);
+        int product = times(d, b);
+        return minus(a, product);
+    }
+
+    public static int sqrt(int x) {
+        int i = 0;
+        while (times(i, i) <= x) {
+            i++;
+        }
+        return minus(i, 1);
+    }
 }
